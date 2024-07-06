@@ -183,7 +183,7 @@ def plot_lineage_data(csv_file, title, cutoff=0.5, line_color='Red', line_style=
     # Interactive plot of numeric lineage data
     fig_lineage = go.Figure()
 
-    if len(numeric_data) > 100:
+    if len(numeric_data) > 50:
         x_values = list(range(1, len(numeric_data) + 1))
         hover_texts = numeric_data.index
     else:
