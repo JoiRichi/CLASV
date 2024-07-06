@@ -1,0 +1,234 @@
+Building DAG of jobs...
+Using shell: /Users/DaoduR-Dev/.nextstrain/runtimes/conda/env/bin/bash
+Provided cores: 5
+Rules claiming more threads will be scaled down.
+Job stats:
+job                         count
+------------------------  -------
+align_and_extract_region        3
+all                             1
+convert_nt_to_aa                3
+encode_sequences                3
+make_predictions_save           3
+statistics                      3
+total                          16
+
+Select jobs to execute...
+
+[Fri Jul  5 18:07:17 2024]
+rule align_and_extract_region:
+    input: raw_data/newBNI_lasv.fasta, config/NC_004296.fasta
+    output: results/newBNI_lasv_extracted_GPC_sequences.fasta
+    jobid: 8
+    reason: Missing output files: results/newBNI_lasv_extracted_GPC_sequences.fasta
+    wildcards: analysis_name=newBNI_lasv
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:17 2024]
+rule align_and_extract_region:
+    input: raw_data/adesina_et_al.fasta, config/NC_004296.fasta
+    output: results/adesina_et_al_extracted_GPC_sequences.fasta
+    jobid: 4
+    reason: Missing output files: results/adesina_et_al_extracted_GPC_sequences.fasta
+    wildcards: analysis_name=adesina_et_al
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:17 2024]
+rule align_and_extract_region:
+    input: raw_data/test_all_lasv.fasta, config/NC_004296.fasta
+    output: results/test_all_lasv_extracted_GPC_sequences.fasta
+    jobid: 12
+    reason: Missing output files: results/test_all_lasv_extracted_GPC_sequences.fasta
+    wildcards: analysis_name=test_all_lasv
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:19 2024]
+Finished job 8.
+1 of 16 steps (6%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:19 2024]
+rule convert_nt_to_aa:
+    input: results/newBNI_lasv_extracted_GPC_sequences.fasta
+    output: results/newBNI_lasv_extracted_GPC_sequences_aa.fasta
+    jobid: 7
+    reason: Missing output files: results/newBNI_lasv_extracted_GPC_sequences_aa.fasta; Input files updated by another job: results/newBNI_lasv_extracted_GPC_sequences.fasta
+    wildcards: analysis_name=newBNI_lasv
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:19 2024]
+Finished job 4.
+2 of 16 steps (12%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:19 2024]
+rule convert_nt_to_aa:
+    input: results/adesina_et_al_extracted_GPC_sequences.fasta
+    output: results/adesina_et_al_extracted_GPC_sequences_aa.fasta
+    jobid: 3
+    reason: Missing output files: results/adesina_et_al_extracted_GPC_sequences_aa.fasta; Input files updated by another job: results/adesina_et_al_extracted_GPC_sequences.fasta
+    wildcards: analysis_name=adesina_et_al
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:21 2024]
+Finished job 7.
+3 of 16 steps (19%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:21 2024]
+rule encode_sequences:
+    input: results/newBNI_lasv_extracted_GPC_sequences_aa.fasta
+    output: results/newBNI_lasv_extracted_GPC_sequences_aa_encoded.csv
+    jobid: 6
+    reason: Missing output files: results/newBNI_lasv_extracted_GPC_sequences_aa_encoded.csv; Input files updated by another job: results/newBNI_lasv_extracted_GPC_sequences_aa.fasta
+    wildcards: analysis_name=newBNI_lasv
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:21 2024]
+Finished job 3.
+4 of 16 steps (25%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:21 2024]
+rule encode_sequences:
+    input: results/adesina_et_al_extracted_GPC_sequences_aa.fasta
+    output: results/adesina_et_al_extracted_GPC_sequences_aa_encoded.csv
+    jobid: 2
+    reason: Missing output files: results/adesina_et_al_extracted_GPC_sequences_aa_encoded.csv; Input files updated by another job: results/adesina_et_al_extracted_GPC_sequences_aa.fasta
+    wildcards: analysis_name=adesina_et_al
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:23 2024]
+Finished job 6.
+5 of 16 steps (31%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:23 2024]
+rule make_predictions_save:
+    input: results/newBNI_lasv_extracted_GPC_sequences_aa_encoded.csv
+    output: predictions/newBNI_lasv_LASV_lin_pred.csv
+    jobid: 5
+    reason: Missing output files: predictions/newBNI_lasv_LASV_lin_pred.csv; Input files updated by another job: results/newBNI_lasv_extracted_GPC_sequences_aa_encoded.csv
+    wildcards: analysis_name=newBNI_lasv
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:24 2024]
+Finished job 2.
+6 of 16 steps (38%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:24 2024]
+rule make_predictions_save:
+    input: results/adesina_et_al_extracted_GPC_sequences_aa_encoded.csv
+    output: predictions/adesina_et_al_LASV_lin_pred.csv
+    jobid: 1
+    reason: Missing output files: predictions/adesina_et_al_LASV_lin_pred.csv; Input files updated by another job: results/adesina_et_al_extracted_GPC_sequences_aa_encoded.csv
+    wildcards: analysis_name=adesina_et_al
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:25 2024]
+Finished job 5.
+7 of 16 steps (44%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:25 2024]
+rule statistics:
+    input: predictions/newBNI_lasv_LASV_lin_pred.csv
+    output: visuals/newBNI_lasv_LASV_lin_pred.html
+    jobid: 14
+    reason: Missing output files: visuals/newBNI_lasv_LASV_lin_pred.html; Input files updated by another job: predictions/newBNI_lasv_LASV_lin_pred.csv
+    wildcards: analysis_name=newBNI_lasv
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:26 2024]
+Finished job 1.
+8 of 16 steps (50%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:26 2024]
+rule statistics:
+    input: predictions/adesina_et_al_LASV_lin_pred.csv
+    output: visuals/adesina_et_al_LASV_lin_pred.html
+    jobid: 13
+    reason: Missing output files: visuals/adesina_et_al_LASV_lin_pred.html; Input files updated by another job: predictions/adesina_et_al_LASV_lin_pred.csv
+    wildcards: analysis_name=adesina_et_al
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:27 2024]
+Finished job 12.
+9 of 16 steps (56%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:27 2024]
+rule convert_nt_to_aa:
+    input: results/test_all_lasv_extracted_GPC_sequences.fasta
+    output: results/test_all_lasv_extracted_GPC_sequences_aa.fasta
+    jobid: 11
+    reason: Missing output files: results/test_all_lasv_extracted_GPC_sequences_aa.fasta; Input files updated by another job: results/test_all_lasv_extracted_GPC_sequences.fasta
+    wildcards: analysis_name=test_all_lasv
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:27 2024]
+Finished job 14.
+10 of 16 steps (62%) done
+[Fri Jul  5 18:07:28 2024]
+Finished job 13.
+11 of 16 steps (69%) done
+[Fri Jul  5 18:07:28 2024]
+Finished job 11.
+12 of 16 steps (75%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:28 2024]
+rule encode_sequences:
+    input: results/test_all_lasv_extracted_GPC_sequences_aa.fasta
+    output: results/test_all_lasv_extracted_GPC_sequences_aa_encoded.csv
+    jobid: 10
+    reason: Missing output files: results/test_all_lasv_extracted_GPC_sequences_aa_encoded.csv; Input files updated by another job: results/test_all_lasv_extracted_GPC_sequences_aa.fasta
+    wildcards: analysis_name=test_all_lasv
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:38 2024]
+Finished job 10.
+13 of 16 steps (81%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:38 2024]
+rule make_predictions_save:
+    input: results/test_all_lasv_extracted_GPC_sequences_aa_encoded.csv
+    output: predictions/test_all_lasv_LASV_lin_pred.csv
+    jobid: 9
+    reason: Missing output files: predictions/test_all_lasv_LASV_lin_pred.csv; Input files updated by another job: results/test_all_lasv_extracted_GPC_sequences_aa_encoded.csv
+    wildcards: analysis_name=test_all_lasv
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:40 2024]
+Finished job 9.
+14 of 16 steps (88%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:40 2024]
+rule statistics:
+    input: predictions/test_all_lasv_LASV_lin_pred.csv
+    output: visuals/test_all_lasv_LASV_lin_pred.html
+    jobid: 15
+    reason: Missing output files: visuals/test_all_lasv_LASV_lin_pred.html; Input files updated by another job: predictions/test_all_lasv_LASV_lin_pred.csv
+    wildcards: analysis_name=test_all_lasv
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:42 2024]
+Finished job 15.
+15 of 16 steps (94%) done
+Select jobs to execute...
+
+[Fri Jul  5 18:07:42 2024]
+localrule all:
+    input: predictions/adesina_et_al_LASV_lin_pred.csv, predictions/newBNI_lasv_LASV_lin_pred.csv, predictions/test_all_lasv_LASV_lin_pred.csv, visuals/adesina_et_al_LASV_lin_pred.html, visuals/newBNI_lasv_LASV_lin_pred.html, visuals/test_all_lasv_LASV_lin_pred.html
+    jobid: 0
+    reason: Input files updated by another job: visuals/test_all_lasv_LASV_lin_pred.html, predictions/newBNI_lasv_LASV_lin_pred.csv, predictions/test_all_lasv_LASV_lin_pred.csv, visuals/newBNI_lasv_LASV_lin_pred.html, visuals/adesina_et_al_LASV_lin_pred.html, predictions/adesina_et_al_LASV_lin_pred.csv
+    resources: tmpdir=/var/folders/g7/y30snjzj1v59zhtg_wv0j_dw0000gp/T
+
+[Fri Jul  5 18:07:42 2024]
+Finished job 0.
+16 of 16 steps (100%) done
+Complete log: .snakemake/log/2024-07-05T180714.678907.snakemake.log
