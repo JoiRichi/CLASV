@@ -4,4 +4,7 @@ numpy
 joblib
 scikit-learn==1.2.2
 plotly
-#nextclade3
+psrecord
+matplotlib
+
+#nextclade3 - must be installed https://docs.nextstrain.org/projects/cli/en/stable/
