@@ -1,20 +1,16 @@
-# LASV_lineage_pred
-Lassa virus lineage prediction based on random forest
-
-This is one out of 3 for the manuscript suporting data and code.
-all here:
-
 ## Complete links
 
 - [Data and process](https://github.com/JoiRichi/LASV_ML_manuscript_data)
 - [Lassa Virus Phylogenetics](https://github.com/JoiRichi/LASV_phylogenetics_pipeline)
 - [lassa virus lineage prediction](https://github.com/JoiRichi/LASV_lineage_pred)
 
-# LASV_Phylogenetics_Pipeline
+# LASV_lineage_pred
 
 ## Overview
-This repository contains the pipeline for rapid and precise prediction of Lassa Virus (LASV GPC) lineages.
+Lassa virus lineage prediction based on random forest.
 
+This is one out of 3 for the manuscript suporting data and code.
+all here:
 ## Project Repositories
 - **Data and Processing:** [LASV_ML_Manuscript_Data](https://github.com/JoiRichi/LASV_ML_manuscript_data)
 - **Lassa Virus Phylogenetics:** [LASV_Phylogenetics_Pipeline](https://github.com/JoiRichi/LASV_phylogenetics_pipeline)
