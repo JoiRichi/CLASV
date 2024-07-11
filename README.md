@@ -51,15 +51,16 @@ Upon completion, go to the pipeline 'visuals' folder and open the html files in 
 
 Learn how the data was preprocessed here: [LASV_ML_Manuscript_Data](https://github.com/JoiRichi/LASV_ML_manuscript_data). Training process here [Notebook Link](https://colab.research.google.com/drive/1G0lEjuvPR07bcb181Rfhm-S0WenMFSmR).
 
+
+
 ## Customization
 
+This pipeline has the ability to process multiple FASTA files containing multiple sequences with proficiency and speed. It is recommended that multiple FASTA files are concatenated into one; however, this is not compulsory, especially if the projects are different. By default, the pipeline finds all files with the extension `.fasta` in the **raw_data** folder and tries to find LASV GPC sequences in the files. You can either move your FASTA files into this folder (recommended) or copy the PATH of the folder containing your sequences and use it as `raw_seq_folder` in the `config.yaml` file. 
 
+To ensure Snakemake has a memory of what files have been checked, intermediary files are created for all files checked, even if they contain no GPC sequences. However, those files would be empty.
 
+### Important Outputs
 
-It is possible to use your own custom sequences using the same process.
+At the end of the run, you can check the **predictions** folder for the CSV files containing the predictions per sample. A visualization of the prediction can be found in the **visuals** folder. Open the HTML files in a browser. The images are high quality and reactive, allowing you to hover over them to see more information.
 
-
-
-
-For further details, please refer to the respective notebooks and repositories linked above.
-
+For further details, please refer to the respective notebooks and repositories linked above. You can also leave a comment for help regarding the pipeline.
