@@ -39,7 +39,7 @@ When the shell is active, run the pipeline using:
 ```sh
 
 snakemake -s predict_lineage.smk --cores 5  # you can change the number of cores
-# To re-run the pipeline from scratch, use ssnakemake -s predict_lineage.smk --cores 5  -F
+# To re-run the pipeline from scratch, use snakemake -s predict_lineage.smk --cores 5  -F
 #please refer to snakemake documentation for help.
 ```
 
