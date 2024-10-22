@@ -263,5 +263,4 @@ def plot_lineage_data(csv_file, title, cutoff=0.5, line_color='Red', line_style=
 
 
 
-# Example usage
 
