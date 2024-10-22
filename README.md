@@ -1,4 +1,4 @@
-# LASV_lineage_pred
+# CLASV
 
 ## Overview
 Lassa virus lineage prediction based on random forest.
@@ -8,7 +8,7 @@ all here:
 ## Project Repositories
 - **Data and Processing:** [LASV_ML_Manuscript_Data](https://github.com/JoiRichi/LASV_ML_manuscript_data)
 - **Lassa Virus Phylogenetics:** [LASV_Phylogenetics_Pipeline](https://github.com/JoiRichi/LASV_phylogenetics_pipeline)
-- **Lassa Virus Lineage Prediction:** [LASV_Lineage_Prediction](https://github.com/JoiRichi/LASV_lineage_pred)
+- **Lassa Virus Lineage Prediction:** [LASV_Lineage_Prediction](https://github.com/JoiRichi/CLASV)
 
 ## Jupyter Notebooks on Google Colab
 - **General Preprocessing:** [Notebook Link](https://colab.research.google.com/drive/1JOgS2-dDoQ7OPHPcXm3AIBDnGQAFxIyR)
@@ -16,14 +16,14 @@ all here:
 - **Lassa Virus Lineage Prediction Training:** [Notebook Link](https://colab.research.google.com/drive/1G0lEjuvPR07bcb181Rfhm-S0WenMFSmR)
 
 ## Prediction Pipeline Overview
-![Phylogenetic Pipeline](predflow.png)
+![CLASV](predflow.png)
 
 ## Running the Pipeline
 This pipeline relies on Nextstrain for gene extraction and alignmnent. Please install Nextstrain first by following the [installation guide](https://docs.nextstrain.org/projects/cli/en/stable/installation/) and ensure the Nextstrain command is available in your terminal.
 
 Clone this repository using (or simply download it as a zipped file and unzip.):
 ```sh
-git clone https://github.com/JoiRichi/LASV_lineage_pred.git
+git clone https://github.com/JoiRichi/CLASV.git
 ```
 
 
