@@ -1,0 +1,52 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+env/
+ENV/
+venv/
+
+# Distribution/build directories
+dist/
+build/
+*.egg-info/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.out
+*.err
+
+# Snakemake-specific files
+.snakemake/
+.snakejob.*
+
+# Output directories (optional, if you don't want to track results)
+results/
+predictions/
+visuals/
+# raw_data/
+
+# Config files (optional, if you want to keep them private)
+# config/*.yaml
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# IDE-specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Temporary files for Mac and Linux
+._*
+*.~lock.*
