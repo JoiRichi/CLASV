@@ -1,0 +1,15 @@
+conda install -c conda-forge conda-build
+conda-build .
+
+conda install -c local clasv
+predict-lineage
+
+anaconda upload /path/to/conda-bld/<platform>/clasv-1.0.0-0.tar.bz2
+
+
+
+
+
+python setup.py sdist bdist_wheel
+pip install dist/CLASV-1.0.0-py3-none-any.whl
+predict-lineage
