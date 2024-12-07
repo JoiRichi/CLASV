@@ -11,5 +11,8 @@ anaconda upload /path/to/conda-bld/<platform>/clasv-1.0.0-0.tar.bz2
 
 
 python setup.py sdist bdist_wheel
-pip install dist/CLASV-1.0.0-py3-none-any.whl
+pip install dist/CLASV-0.1.0-py3-none-any.whl
 predict-lineage
+
+twine upload --repository testpypi dist/*
+twine upload dist/*
