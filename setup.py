@@ -1,5 +1,18 @@
 from setuptools import setup, find_packages
 
+from setuptools.command.install import install
+import subprocess
+
+class CustomInstall(install):
+    def run(self):
+        install.run(self)  # Run the standard install
+        try:
+            subprocess.run(["python", "install_nextclade.py"], check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to install Nextclade: {e}")
+
+
+
 setup(
     name='CLASV',
     version='0.1.0',

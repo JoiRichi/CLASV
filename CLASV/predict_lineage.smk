@@ -1,4 +1,4 @@
-configfile: "config/config.yaml"
+configfile: "CLASV/config/config.yaml"
 
 # Include necessary imports
 from core import *
@@ -7,11 +7,11 @@ import os
 
 # Get the current working directory for outputs
 cwd = os.getcwd()
-
+output_folder_name = config["output"]
 # Directories for outputs
-visuals_dir = os.path.join(cwd, "visuals")
-predictions_dir = os.path.join(cwd, "predictions")
-results_dir = os.path.join(cwd, "results")
+visuals_dir = os.path.join(cwd, output_folder_name, "visuals")
+predictions_dir = os.path.join(cwd,output_folder_name, "predictions")
+results_dir = os.path.join(cwd,output_folder_name, "results")
 
 # Ensure directories exist
 os.makedirs(visuals_dir, exist_ok=True)
@@ -40,7 +40,7 @@ rule all:
 rule align_and_extract_region:
     input:
         sequences=lambda wildcards: get_path(wildcards.analysis_name, all_fasta),
-        reference="config/NC_004296.fasta"
+        reference="CLASV/config/NC_004296.fasta"
     output:
         sequences=f"{results_dir}/{{analysis_name}}_extracted_GPC_sequences.fasta"
     params:
@@ -48,7 +48,7 @@ rule align_and_extract_region:
     run:
         try:
             shell("""
-                nextclade3 run \
+                nextclade run \
                    -j 2 \
                    --input-ref {input.reference} \
                    --output-fasta {output.sequences} \

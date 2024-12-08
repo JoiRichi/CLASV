@@ -7,15 +7,9 @@ def update_config(input_folder, output_folder, recursive):
     """
     Updates the `config.yaml` file with the provided input and output folders.
     """
-    visuals_dir = Path(output_folder) / "visuals"
-    predictions_dir = Path(output_folder) / "predictions"
-    results_dir = Path(output_folder) / "results"
     
-    os.makedirs(visuals_dir, exist_ok=True)
-    os.makedirs(predictions_dir, exist_ok=True)
-    os.makedirs(results_dir, exist_ok=True)
     
-    config_path = "config/config.yaml"
+    config_path = "CLASV/config/config.yaml"
     if os.path.exists(config_path):
         with open(config_path, "r") as file:
             config = yaml.safe_load(file)
@@ -23,11 +17,8 @@ def update_config(input_folder, output_folder, recursive):
         config = {}
 
     config["raw_seq_folder"] = input_folder
-    config["output"] = {
-        "visuals": str(visuals_dir),
-        "predictions": str(predictions_dir),
-        "results": str(results_dir),
-    }
+    config["output"] = output_folder
+
 
     with open(config_path, "w") as config_file:
         yaml.dump(config, config_file)
@@ -53,7 +44,7 @@ def run_pipeline(input_folder, output_folder, recursive, cores, force):
     update_config(input_folder, output_folder, recursive)
     collect_fasta_files(input_folder, recursive)
 
-    snakemake_command = f"snakemake --cores {cores}"
+    snakemake_command = f"snakemake -s CLASV/predict_lineage.smk --cores {cores}"
     if force:
         snakemake_command += " --forceall"
 

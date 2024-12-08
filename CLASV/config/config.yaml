@@ -1,13 +1,6 @@
+figures_title: Lineages Prediction
 filter:
   min_length: 500
-
-model: 
-  "config/RF_LASV_lineage_n1000_aa.joblib"
-
-
-figures_title:
-  "Lineages Prediction"
-
-
-raw_seq_folder:
-  "raw_data"
+model: CLASV/config/RF_LASV_lineage_n1000_aa.joblib
+output: another
+raw_seq_folder: CLASV/raw_data
