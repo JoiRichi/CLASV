@@ -1,17 +1,25 @@
 from setuptools import setup, find_packages
-
 from setuptools.command.install import install
 import subprocess
+import os
+import sys
 
 class CustomInstall(install):
     def run(self):
-        install.run(self)  # Run the standard install
+        # Run the standard install
+        install.run(self)
+
+        # Locate and run the Nextclade installer
         try:
-            subprocess.run(["python", "install_nextclade.py"], check=True)
+            print("Installing Nextclade...", flush=True)  # Ensure the message is flushed immediately
+            script_path = os.path.join(os.path.dirname(__file__), "install_nextclade.py")
+            subprocess.run([sys.executable, script_path], check=True)
+            print("Nextclade installation completed successfully.", flush=True)
         except subprocess.CalledProcessError as e:
-            print(f"Failed to install Nextclade: {e}")
+            print(f"Error: Failed to install Nextclade. {e}", flush=True)
+            sys.exit(1)
 
-
+print('Running setup...')
 
 setup(
     name='CLASV',
@@ -104,9 +112,9 @@ setup(
             "clasv=CLASV.cli:main",
         ]
     },
-    description='CLASV is a pipeline designed for predicting Lassa virus lineages using a Random Forest model. It serves as a critical component of a broader study on Lassa virus, complementing data preprocessing and phylogenetic analysis.',
+    description='CLASV is a pipeline designed for rapidly predicting Lassa virus lineages using a Random Forest model.',
     long_description=open('README.md').read(),
-    long_descriptions_content_type='text/markdown',
+    long_description_content_type='text/markdown',
     author='Daodu Richard, Awotoro Ebenezer',
     author_email='lordrichado@gmail.com',
     url='https://github.com/JoiRichi/CLASV/commits?author=JoiRichi',
@@ -115,4 +123,7 @@ setup(
         'License :: OSI Approved :: MIT License',
     ],
     python_requires='>=3.11',
+    cmdclass={
+        "install": CustomInstall,
+    },
 )
