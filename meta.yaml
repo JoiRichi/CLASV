@@ -9,33 +9,33 @@ build:
   noarch: python
   script:
     - echo "Contents of work directory:"
-    - ls -la $SRC_DIR
     - set +e
     - chmod +x $HOME/.local/bin/nextclade
-    - "{{ PYTHON }} -m pip install --no-cache-dir snakemake==7.15.3"
+    - echo "Installing the clasv package..."
     - "{{ PYTHON }} -m pip install ."
     - "{{ PYTHON }} -c 'from CLASV.install_nextclade import install_nextclade; install_nextclade()'"
+
 requirements:
   build:
     - python >=3.6
     - pip
     - curl
   run:
-    - python >=3.6
     - biopython
     - pandas
     - matplotlib
     - scikit-learn
+    - numpy
+    - PyYAML
 
-extra:
-  pip:
-    - snakemake
-  channels:
-    - bioconda
-    - conda-forge
+test:
+  imports:
+    - CLASV
+  commands:
+    - clasv --help
 
 about:
-  home: https://github.com/JoiRichi/CLASV/commits?author=JoiRichi
+  home: https://github.com/JoiRichi/CLASV
   license: MIT
   license_family: MIT
   license_file: LICENSE
@@ -45,5 +45,8 @@ about:
   dev_url: https://github.com/JoiRichi/CLASV
 
 extra:
+  channels:
+    - bioconda
+    - conda-forge
   recipe-maintainers:
     - JoiRichi

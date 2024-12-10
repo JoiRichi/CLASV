@@ -1,9 +1,12 @@
 conda install -c conda-forge conda-build
-conda-build ./conda
+conda-build .
 
 conda install --use-local clasv
 python -c "import CLASV; print(CLASV.__version__)"
 
+# create env for conda
+conda create -n clasv-env python=3.11 -y
+conda activate clasv-env
 
 anaconda upload /path/to/conda-bld/<platform>/clasv-1.0.0-0.tar.bz2
 

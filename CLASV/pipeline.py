@@ -2,32 +2,56 @@ import os
 import yaml
 import glob
 from pathlib import Path
+import subprocess
+
 
 def update_config(input_folder, output_folder, recursive):
     """
     Updates the `config.yaml` file with the provided input and output folders.
     """
+    # Resolve the path to the `config.yaml` dynamically
+    library_path = Path(__file__).resolve().parent
+    config_path = library_path / "config/config.yaml"
+    reference_path = library_path / "config/NC_004296.fasta"
+    model_path = library_path / "config/RF_LASV_lineage_n1000_aa.joblib"
     
-    
-    config_path = "CLASV/config/config.yaml"
-    if os.path.exists(config_path):
-        with open(config_path, "r") as file:
-            config = yaml.safe_load(file)
+    print(f"Config path resolved to: {config_path}")
+
+    # Ensure the config directory exists
+    config_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Read or create the configuration
+    if config_path.exists():
+        with config_path.open("r") as file:
+            config = yaml.safe_load(file) or {}
     else:
+        print(f"Warning: Config file {config_path} does not exist. A new one will be created.")
         config = {}
 
-    config["raw_seq_folder"] = input_folder
-    config["output"] = output_folder
+    # Update the configuration
+    config["raw_seq_folder"] = str(input_folder)
+    config["output"] = str(output_folder)
+    config["reference"] = str(reference_path)
+    config["filter"] = {"min_length": 200}
+    config["model"] = str(model_path)
+    config["figures_title"] = "LASV Lineage Prediction"
 
-
-    with open(config_path, "w") as config_file:
+    # Save the updated configuration
+    with config_path.open("w") as config_file:
         yaml.dump(config, config_file)
 
+    print(f"Config updated successfully at {config_path}")
+
+
 def collect_fasta_files(input_folder, recursive):
+    """
+    Collects FASTA files from the input folder.
+    """
+    input_path = Path(input_folder).resolve()
     if recursive:
-        all_fasta = glob.glob(f"{input_folder}/**/*.fasta", recursive=True)
+        all_fasta = list(input_path.rglob("*.fasta"))
     else:
-        all_fasta = glob.glob(f"{input_folder}/*.fasta")
+        all_fasta = list(input_path.glob("*.fasta"))
 
     if not all_fasta:
         print(f"No FASTA files found in {input_folder} (recursive={recursive}).")
@@ -36,18 +60,50 @@ def collect_fasta_files(input_folder, recursive):
     print(f"Found {len(all_fasta)} FASTA file(s) in {input_folder}.")
     return all_fasta
 
+
 def run_pipeline(input_folder, output_folder, recursive, cores, force):
-    if not os.path.exists(input_folder):
-        print(os.path.exists(input_folder))
-        print(f"Error: Input folder '{input_folder}' does not exist.")
+    """
+    Runs the Snakemake pipeline with the specified parameters.
+    """
+    # Resolve paths for input and output
+    input_path = Path(input_folder).resolve()
+    output_path = Path(output_folder).resolve()
+
+    # Resolve library paths
+    library_path = Path(__file__).resolve().parent
+    snakefile_path = library_path / "predict_lineage.smk"
+    config_path = library_path / "config/config.yaml"
+
+    # Validate paths
+    if not input_path.exists():
+        print(f"Error: Input folder '{input_path}' does not exist.")
         exit(1)
 
-    update_config(input_folder, output_folder, recursive)
-    collect_fasta_files(input_folder, recursive)
+    if not snakefile_path.exists():
+        print(f"Error: Snakefile '{snakefile_path}' does not exist.")
+        exit(1)
 
-    snakemake_command = f"snakemake -s CLASV/predict_lineage.smk --cores {cores}"
+    # Create output directory if it doesn't exist
+    output_path.mkdir(parents=True, exist_ok=True)
+
+    # Update configuration and collect FASTA files
+    update_config(input_path, output_path, recursive)
+    collect_fasta_files(input_path, recursive)
+
+    # Construct the Snakemake command
+    snakemake_command = [
+        "snakemake",
+        "-s", str(snakefile_path),
+        "--configfile", str(config_path),
+        "--cores", str(cores),
+    ]
     if force:
-        snakemake_command += " --forceall"
+        snakemake_command.append("--forceall")
 
-    print(f"Running Snakemake with command: {snakemake_command}")
-    os.system(snakemake_command)
+    # Run Snakemake
+    print(f"Running Snakemake with command: {' '.join(snakemake_command)}")
+    try:
+        subprocess.run(snakemake_command, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error running Snakemake: {e}")
+        exit(1)
