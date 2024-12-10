@@ -50,3 +50,4 @@ Thumbs.db
 # Temporary files for Mac and Linux
 ._*
 *.~lock.*
+.DS_Store

@@ -38,6 +38,7 @@ def collect_fasta_files(input_folder, recursive):
 
 def run_pipeline(input_folder, output_folder, recursive, cores, force):
     if not os.path.exists(input_folder):
+        print(os.path.exists(input_folder))
         print(f"Error: Input folder '{input_folder}' does not exist.")
         exit(1)
 

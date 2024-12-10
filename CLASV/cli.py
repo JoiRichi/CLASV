@@ -1,6 +1,9 @@
 import argparse
+import subprocess
 from CLASV.pipeline import run_pipeline
-
+from CLASV.install_nextclade import install_nextclade, is_nextclade_installed
+    
+    
 def main():
     parser = argparse.ArgumentParser(prog="clasv", description="CLASV: Lassa Virus Analysis Pipeline")
     subparsers = parser.add_subparsers(dest="command", help="Available subcommands")
@@ -17,6 +20,12 @@ def main():
 
     # Handle subcommands
     if args.command == "find-lassa":
-        run_pipeline(args.input, args.output, args.recursive, args.cores, args.force)
+        if is_nextclade_installed():
+            print("Nextclade installation verified successfully.")
+            run_pipeline(args.input, args.output, args.recursive, args.cores, args.force)
+        else:
+            print("Nextclade has not been installed. Installation in progress.")
+            install_nextclade()
+            
     else:
         parser.print_help()

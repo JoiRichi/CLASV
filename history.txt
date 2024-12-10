@@ -1,8 +1,9 @@
 conda install -c conda-forge conda-build
-conda-build .
+conda-build ./conda
 
-conda install -c local clasv
-predict-lineage
+conda install --use-local clasv
+python -c "import CLASV; print(CLASV.__version__)"
+
 
 anaconda upload /path/to/conda-bld/<platform>/clasv-1.0.0-0.tar.bz2
 
@@ -12,7 +13,20 @@ anaconda upload /path/to/conda-bld/<platform>/clasv-1.0.0-0.tar.bz2
 
 python setup.py sdist bdist_wheel
 pip install dist/CLASV-0.1.0-py3-none-any.whl
-predict-lineage
+pip uninstall dist/CLASV-0.1.0-py3-none-any.whl
+pip install .
+
+
+CLASV find-lassa --input /Users/AwotoroE-Dev/Desktop/CLASV/raw_data --output output 
 
 twine upload --repository testpypi dist/*
+twine upload dist/*
+
+
+Publish to PyPI
+When you're satisfied with the integration, upload the package to PyPI:
+
+bash
+Copy code
+python setup.py sdist bdist_wheel
 twine upload dist/*
