@@ -32,33 +32,16 @@ def update_config(input_folder, output_folder, recursive):
     config["raw_seq_folder"] = str(input_folder)
     config["output"] = str(output_folder)
     config["reference"] = str(reference_path)
-    config["filter"] = {"min_length": 200}
+    config["filter"] = {"min_length": 500}
     config["model"] = str(model_path)
     config["figures_title"] = "LASV Lineage Prediction"
+    config["recursive"] = True if recursive else False
 
     # Save the updated configuration
     with config_path.open("w") as config_file:
         yaml.dump(config, config_file)
 
     print(f"Config updated successfully at {config_path}")
-
-
-def collect_fasta_files(input_folder, recursive):
-    """
-    Collects FASTA files from the input folder.
-    """
-    input_path = Path(input_folder).resolve()
-    if recursive:
-        all_fasta = list(input_path.rglob("*.fasta"))
-    else:
-        all_fasta = list(input_path.glob("*.fasta"))
-
-    if not all_fasta:
-        print(f"No FASTA files found in {input_folder} (recursive={recursive}).")
-        exit(1)
-
-    print(f"Found {len(all_fasta)} FASTA file(s) in {input_folder}.")
-    return all_fasta
 
 
 def run_pipeline(input_folder, output_folder, recursive, cores, force):
@@ -88,8 +71,7 @@ def run_pipeline(input_folder, output_folder, recursive, cores, force):
 
     # Update configuration and collect FASTA files
     update_config(input_path, output_path, recursive)
-    collect_fasta_files(input_path, recursive)
-
+    
     # Construct the Snakemake command
     snakemake_command = [
         "snakemake",
