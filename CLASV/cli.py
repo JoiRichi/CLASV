@@ -24,8 +24,9 @@ def main():
             print("Nextclade installation verified successfully.")
             run_pipeline(args.input, args.output, args.recursive, args.cores, args.force)
         else:
-            print("Nextclade has not been installed. Installation in progress.")
+            print("Nextclade has not been installed. Installation in progress. If Nextclade installs and the analysis did not auto-continue, please rerun your command.")
             install_nextclade()
+            run_pipeline(args.input, args.output, args.recursive, args.cores, args.force)
             
     else:
         parser.print_help()

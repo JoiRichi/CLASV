@@ -78,6 +78,7 @@ def run_pipeline(input_folder, output_folder, recursive, cores, force):
         "-s", str(snakefile_path),
         "--configfile", str(config_path),
         "--cores", str(cores),
+        "--rerun-incomplete", #always rerun incomplete files
     ]
     if force:
         snakemake_command.append("--forceall")
