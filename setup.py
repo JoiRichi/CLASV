@@ -27,7 +27,7 @@ print('Running setup...')
 
 setup(
     name='CLASV',
-    version='0.1.12',
+    version='0.1.14',
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
@@ -123,7 +123,7 @@ setup(
     author='Richard Daodu, Ebenezer Awotoro',
     author_email='lordrichado@gmail.com',
     url='https://github.com/JoiRichi/CLASV/commits?author=JoiRichi',
-    python_requires=">=3.6, <=3.12"
+    python_requires=">=3.6"
 ,
     classifiers=[
         "Programming Language :: Python :: 3",
