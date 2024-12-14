@@ -5,7 +5,7 @@ from pathlib import Path
 import subprocess
 
 
-def update_config(input_folder, output_folder, recursive):
+def update_config(input_folder, output_folder, recursive, minlength, include_fastq):
     """
     Updates the `config.yaml` file with the provided input and output folders.
     """
@@ -32,10 +32,12 @@ def update_config(input_folder, output_folder, recursive):
     config["raw_seq_folder"] = str(input_folder)
     config["output"] = str(output_folder)
     config["reference"] = str(reference_path)
-    config["filter"] = {"min_length": 500}
+    config["filter"] = {"min_length": int(minlength)}
     config["model"] = str(model_path)
     config["figures_title"] = "LASV Lineage Prediction"
     config["recursive"] = True if recursive else False
+    config["include_fastq"] = True if include_fastq else False
+
 
     # Save the updated configuration
     with config_path.open("w") as config_file:
@@ -44,7 +46,7 @@ def update_config(input_folder, output_folder, recursive):
     print(f"Config updated successfully at {config_path}")
 
 
-def run_pipeline(input_folder, output_folder, recursive, cores, force):
+def run_pipeline(input_folder, output_folder, recursive, cores, force, minlength, include_fastq):
     """
     Runs the Snakemake pipeline with the specified parameters.
     """
@@ -70,7 +72,7 @@ def run_pipeline(input_folder, output_folder, recursive, cores, force):
     output_path.mkdir(parents=True, exist_ok=True)
 
     # Update configuration and collect FASTA files
-    update_config(input_path, output_path, recursive)
+    update_config(input_path, output_path, recursive, minlength, include_fastq)
     
     # Construct the Snakemake command
     snakemake_command = [

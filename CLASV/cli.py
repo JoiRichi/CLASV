@@ -15,6 +15,10 @@ def main():
     find_parser.add_argument("--recursive", action="store_true", help="Search input folder recursively.")
     find_parser.add_argument("--cores", type=int, default=4, help="Number of cores to use (default: 4).")
     find_parser.add_argument("--force", action="store_true", help="Force rerun of all pipeline steps.")
+    find_parser.add_argument("--minlength", type=int, default=500, help="Minimum length of GPC.")
+    find_parser.add_argument("--include_fastq", action="store_true", help="Include fastq files.")
+
+
 
     args = parser.parse_args()
 
@@ -22,11 +26,11 @@ def main():
     if args.command == "find-lassa":
         if is_nextclade_installed():
             print("Nextclade installation verified successfully.")
-            run_pipeline(args.input, args.output, args.recursive, args.cores, args.force)
+            run_pipeline(args.input, args.output, args.recursive, args.cores, args.force, args.minlength, args.include_fastq)
         else:
             print("Nextclade has not been installed. Installation in progress. If Nextclade installs and the analysis did not auto-continue, please rerun your command.")
             install_nextclade()
-            run_pipeline(args.input, args.output, args.recursive, args.cores, args.force)
+            run_pipeline(args.input, args.output, args.recursive, args.cores, args.force, args.minlength, args.include_fastq)
             
     else:
         parser.print_help()

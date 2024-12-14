@@ -37,7 +37,7 @@ This tool relies on Nextclade for gene extraction and alignment. This is automat
 
 
 ```sh
-clasv find-lassa --input myinputfolderpath --output mychosenfolderpath --cores 4 #default
+clasv find-lassa --input myinputfolderpath --output mychosenfolderpath --cores 4 #default --minlength 500
 
 ```
 

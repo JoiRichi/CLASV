@@ -14,20 +14,40 @@ visuals_dir = os.path.join(cwd, output_folder_name, "visuals")
 predictions_dir = os.path.join(cwd, output_folder_name, "predictions")
 results_dir = os.path.join(cwd, output_folder_name, "results")
 
+
 # Ensure output directories exist
 os.makedirs(visuals_dir, exist_ok=True)
 os.makedirs(predictions_dir, exist_ok=True)
 os.makedirs(results_dir, exist_ok=True)
 
+
+#preprocessed_dir = os.path.join(results_dir, "preprocessed")
+#os.makedirs(preprocessed_dir, exist_ok=True)
+
 # Input files
 input_path = config["raw_seq_folder"]
 
 recursive = config["recursive"]
-print(recursive)
+
+include_fastq = config["include_fastq"]
+
+
+
+
 if recursive:
     all_fasta = glob.glob(os.path.join(input_path, '**', '*.fasta'), recursive = True)
+    if include_fastq:
+        all_fastq = glob.glob(os.path.join(input_path, '**', '*.fastq'), recursive = True)
+        all_fasta = all_fasta + all_fastq
 else:
     all_fasta = glob.glob(os.path.join(input_path, '*.fasta'))
+    print(all_fasta)
+    if include_fastq:
+        all_fastq = glob.glob(os.path.join(input_path, '*.fastq'))
+        all_fasta = all_fasta + all_fastq
+        print(all_fasta)
+
+
 
 
 if not all_fasta:
@@ -45,6 +65,7 @@ def create_dummy(path):
 
 
 
+
 # Helper function to get file path
 def get_path(file_name, path_list):
     for path in path_list:
@@ -57,6 +78,8 @@ rule all:
     input:
         expand(f"{predictions_dir}/{{analysis_name}}_LASV_lin_pred.csv", analysis_name=analysis_name),
         expand(f"{visuals_dir}/{{analysis_name}}_LASV_lin_pred.html", analysis_name=analysis_name)
+
+
 
 # Rule: Align and Extract Region
 rule align_and_extract_region:
