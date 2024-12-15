@@ -17,17 +17,32 @@ def install_nextclade():
     except Exception as e:
         print(f"Failed to install Nextclade: {e}")
 
+
+def install_seqkit():
+    try:
+        print("Installing Seqkit...")
+        subprocess.run(["python", "-m", "CLASV.install_seqkit"], check=True)
+        print("Seqkit installation completed.")
+        print(
+            "\nIMPORTANT: To ensure the Seqkit CLI is available, you may need to restart your terminal "
+            "or run the following command:\n"
+        )
+    except Exception as e:
+        print(f"Failed to install Seqkit: {e}")
+
+
 class CustomInstallCommand(install):
     def run(self):
         install.run(self)
         install_nextclade()
+        install_seqkit()
 
 
 print('Running setup...')
 
 setup(
     name='CLASV',
-    version='0.1.14',
+    version='0.1.15',
     packages=find_packages(),
     include_package_data=True,
     install_requires=[

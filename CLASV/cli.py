@@ -2,7 +2,8 @@ import argparse
 import subprocess
 from CLASV.pipeline import run_pipeline
 from CLASV.install_nextclade import install_nextclade, is_nextclade_installed
-    
+from CLASV.install_seqkit import install_seqkit, is_seqkit_installed
+
     
 def main():
     parser = argparse.ArgumentParser(prog="clasv", description="CLASV: Lassa Virus Analysis Pipeline")
@@ -24,12 +25,24 @@ def main():
 
     # Handle subcommands
     if args.command == "find-lassa":
-        if is_nextclade_installed():
-            print("Nextclade installation verified successfully.")
+        if is_nextclade_installed() and is_seqkit_installed():
+            print("Nextclade and Seqkit installation verified successfully.")
             run_pipeline(args.input, args.output, args.recursive, args.cores, args.force, args.minlength, args.include_fastq)
-        else:
-            print("Nextclade has not been installed. Installation in progress. If Nextclade installs and the analysis did not auto-continue, please rerun your command.")
+
+        elif is_nextclade_installed() and not is_seqkit_installed():
+            print("Nextclade installation verified successfully but seqkit is unavailable. Installing ...")
+            install_seqkit()
+            run_pipeline(args.input, args.output, args.recursive, args.cores, args.force, args.minlength, args.include_fastq)
+
+        elif not is_nextclade_installed() and is_seqkit_installed():
+            print("Seqkit installation verified successfully but Nextclade is unavailable. Installing ...")
             install_nextclade()
+            run_pipeline(args.input, args.output, args.recursive, args.cores, args.force, args.minlength, args.include_fastq)
+ 
+        else:
+            print("Nextclade and Seqkit has not been installed. Installation in progress. If Nextclade installs and the analysis did not auto-continue, please rerun your command.")
+            install_nextclade()
+            install_seqkit()
             run_pipeline(args.input, args.output, args.recursive, args.cores, args.force, args.minlength, args.include_fastq)
             
     else:

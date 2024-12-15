@@ -1,90 +1,94 @@
 configfile: "config/config.yaml"
 
-# Import necessary modules
 from core import *
 import glob
 import os
+import shutil
+import logging
 
-# Get current working directory
+# Configure logging for error tracking
+logging.basicConfig(level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
+
 cwd = os.getcwd()
 
-# Directories for outputs
+# Set up directories
 output_folder_name = config["output"]
 visuals_dir = os.path.join(cwd, output_folder_name, "visuals")
 predictions_dir = os.path.join(cwd, output_folder_name, "predictions")
 results_dir = os.path.join(cwd, output_folder_name, "results")
+preprocessed_dir = os.path.join(results_dir, "preprocessed")
 
+def create_directories(*dirs):
+    for d in dirs:
+        os.makedirs(d, exist_ok=True)
 
-# Ensure output directories exist
-os.makedirs(visuals_dir, exist_ok=True)
-os.makedirs(predictions_dir, exist_ok=True)
-os.makedirs(results_dir, exist_ok=True)
+create_directories(visuals_dir, predictions_dir, results_dir, preprocessed_dir)
 
-
-#preprocessed_dir = os.path.join(results_dir, "preprocessed")
-#os.makedirs(preprocessed_dir, exist_ok=True)
-
-# Input files
+# Collect input files
 input_path = config["raw_seq_folder"]
-
 recursive = config["recursive"]
-
 include_fastq = config["include_fastq"]
 
-
-
-
-if recursive:
-    all_fasta = glob.glob(os.path.join(input_path, '**', '*.fasta'), recursive = True)
+def collect_input_files(input_dir, recursive, include_fastq):
+    patterns = [".fasta", ".fasta.gz"]
     if include_fastq:
-        all_fastq = glob.glob(os.path.join(input_path, '**', '*.fastq'), recursive = True)
-        all_fasta = all_fasta + all_fastq
-else:
-    all_fasta = glob.glob(os.path.join(input_path, '*.fasta'))
-    print(all_fasta)
-    if include_fastq:
-        all_fastq = glob.glob(os.path.join(input_path, '*.fastq'))
-        all_fasta = all_fasta + all_fastq
-        print(all_fasta)
+        patterns += [".fastq", ".fastq.gz"]
 
+    files = glob.glob(os.path.join(input_dir, "**/*"), recursive=recursive) if recursive else glob.glob(os.path.join(input_dir, "*"))
+    return [f for f in files if any(f.endswith(ext) for ext in patterns)]
 
+all_input_files = collect_input_files(input_path, recursive, include_fastq)
+if not all_input_files:
+    raise ValueError(f"No FASTA/FASTQ files found in {input_path}.")
+print(f"Found {len(all_input_files)} FASTA/FASTQ file(s) in {input_path}.")
 
+# Precompute raw file mapping for speed
+def strip_extensions(filename):
+    base = os.path.basename(filename)
+    extensions = (".fasta.gz", ".fastq.gz", ".fasta", ".fastq")
+    for ext in extensions:
+        if base.endswith(ext):
+            return base[: -len(ext)]
+    return base
 
-if not all_fasta:
-    raise ValueError(f"No FASTA files found in {input_path}.")
-else:
-    print(f"Found {len(all_fasta)} FASTA file(s) in {input_path}.")
+raw_file_map = {strip_extensions(f): f for f in all_input_files}
 
+def get_raw_file(aname):
+    return raw_file_map.get(aname)
 
-analysis_name = [os.path.basename(x).split('.')[0] for x in all_fasta]
+analysis_name = list(raw_file_map.keys())
 
+# Utility for error logging
+def log_error(log_file, message):
+    logging.error(message)
+    with open(log_file, "a") as lg:
+        lg.write(f"{message}\n")
 
 def create_dummy(path):
-    with open(path, "w") as placeholder_file:
-        placeholder_file.write("")
+    with open(path, "w") as placeholder:
+        placeholder.write("")
 
-
-
-
-# Helper function to get file path
-def get_path(file_name, path_list):
-    for path in path_list:
-        if os.path.basename(path).split('.')[0] == file_name:
-            return path
-    raise ValueError(f"File with name {file_name} not found in the provided path list.")
-
-# Define the all rule
+# Workflow rules
 rule all:
     input:
         expand(f"{predictions_dir}/{{analysis_name}}_LASV_lin_pred.csv", analysis_name=analysis_name),
         expand(f"{visuals_dir}/{{analysis_name}}_LASV_lin_pred.html", analysis_name=analysis_name)
 
+rule preprocess_sequences:
+    input:
+        seq=lambda wc: get_raw_file(wc.analysis_name)
+    output:
+        fasta=temp(os.path.join(preprocessed_dir, "{analysis_name}.fasta"))
+    run:
+        infile, outfile = input.seq, output.fasta
+        if infile.endswith((".fasta", ".fasta.gz")):
+            shutil.copy(infile, outfile)
+        else:
+            shell(f"seqkit fq2fa '{infile}' -o '{outfile}'")
 
-
-# Rule: Align and Extract Region
 rule align_and_extract_region:
     input:
-        sequences=lambda wildcards: get_path(wildcards.analysis_name, all_fasta),
+        sequences=os.path.join(preprocessed_dir, "{analysis_name}.fasta"),
         reference=config["reference"]
     output:
         sequences=f"{results_dir}/{{analysis_name}}_extracted_GPC_sequences.fasta"
@@ -104,7 +108,6 @@ rule align_and_extract_region:
            "{input.sequences}" > "{log.align_log}" 2>&1 || touch "{output.sequences}"
         """
 
-# Rule: Convert Nucleotide to Amino Acid
 rule convert_nt_to_aa:
     input:
         sequences=f"{results_dir}/{{analysis_name}}_extracted_GPC_sequences.fasta"
@@ -116,11 +119,9 @@ rule convert_nt_to_aa:
         try:
             translate_alignment(input.sequences, output.sequences)
         except Exception as e:
-            with open(log.convert_log, "a") as log_file:
-                log_file.write(f"Error in convert_nt_to_aa for {wildcards.analysis_name}: {e}\n")
+            log_error(log.convert_log, f"Error in convert_nt_to_aa for {wildcards.analysis_name}: {e}")
             create_dummy(output.sequences)
 
-# Rule: Encode Sequences
 rule encode_sequences:
     input:
         sequences=f"{results_dir}/{{analysis_name}}_extracted_GPC_sequences_aa.fasta"
@@ -132,11 +133,9 @@ rule encode_sequences:
         try:
             onehot_alignment_aa(input.sequences, output.encoding)
         except Exception as e:
-            with open(log.encode_log, "a") as log_file:
-                log_file.write(f"Error in encode_sequences for {wildcards.analysis_name}: {e}\n")
+            log_error(log.encode_log, f"Error in encode_sequences for {wildcards.analysis_name}: {e}")
             create_dummy(output.encoding)
 
-# Rule: Make Predictions and Save
 rule make_predictions_save:
     input:
         encoding=f"{results_dir}/{{analysis_name}}_extracted_GPC_sequences_aa_encoded.csv"
@@ -151,11 +150,9 @@ rule make_predictions_save:
         try:
             model.predict(input.encoding, output.prediction)
         except Exception as e:
-            with open(log.prediction_log, "a") as log_file:
-                log_file.write(f"Error in make_predictions_save for {wildcards.analysis_name}: {e}\n")
+            log_error(log.prediction_log, f"Error in make_predictions_save for {wildcards.analysis_name}: {e}")
             create_dummy(output.prediction)
 
-# Rule: Generate Statistics
 rule statistics:
     input:
         prediction=f"{predictions_dir}/{{analysis_name}}_LASV_lin_pred.csv"
@@ -173,6 +170,5 @@ rule statistics:
                 output_html=output.figures
             )
         except Exception as e:
-            with open(log.statistics_log, "a") as log_file:
-                log_file.write(f"Error in statistics for {wildcards.analysis_name}: {e}\n")
+            log_error(log.statistics_log, f"Error in statistics for {wildcards.analysis_name}: {e}")
             create_dummy(output.figures)
