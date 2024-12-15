@@ -37,7 +37,7 @@ This tool relies on Nextclade for gene extraction and alignment. This is automat
 
 
 ```sh
-clasv find-lassa --input myinputfolderpath --output mychosenfolderpath --cores 4 #default --minlength 500
+clasv find-lassa --input myinputfolderpath --output mychosenfolderpath --cores 4 --minlength 500 #default 
 
 ```
 
@@ -45,7 +45,7 @@ Find Fasta files in the input directory and subdirectories recursively:
 
 ```sh
 # 
-clasv find-lassa --input myinputfolderpath --output mychosenfolderpath --recursive --cores 4 #default
+clasv find-lassa --input myinputfolderpath --output mychosenfolderpath  --cores 4 --recursive #Add the recursive flag
 ```
 
 
@@ -53,7 +53,7 @@ Force rerun:
 
 ```sh
 # 
-clasv find-lassa --input myinputfolderpath --output mychosenfolderpath --force --cores 4 #default
+clasv find-lassa --input myinputfolderpath --output mychosenfolderpath --cores 4 --force #add the force flag
 ```
 
 
