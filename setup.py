@@ -135,7 +135,7 @@ setup(
     description='CLASV is a pipeline designed for rapidly predicting Lassa virus lineages using a Random Forest model.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    author='Richard Daodu, Ebenezer Awotoro',
+    author='Richard Daodu, Ebenezer Awotoro, Jens-Uwe Ulrich, Denise Kühnert',
     author_email='lordrichado@gmail.com',
     url='https://github.com/JoiRichi/CLASV/commits?author=JoiRichi',
     python_requires=">=3.6"
