@@ -17,7 +17,7 @@ https://github.com/JoiRichi/CLASV
 ## Prediction Pipeline Overview
 ![CLASV](predflow.png)
 
-## ⚠️ Installation Guide (Tested Method) ⚠️
+## Installation Guide
 
 ### Step 1: Install Python 3.11
 **CLASV requires Python 3.11 for optimal compatibility.**
