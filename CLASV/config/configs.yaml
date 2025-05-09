@@ -1,0 +1,6 @@
+figures_title: Lineages Prediction
+filter:
+  min_length: 500
+model: CLASV/config/RF_LASV_lineage_n500_aa.joblib
+output: output
+raw_seq_folder: /Users/AwotoroE-Dev/Desktop/CLASV/raw_data

@@ -1,0 +1,9 @@
+figures_title: LASV Lineage Prediction
+filter:
+  min_length: 500
+include_fastq: false
+model: /Users/joirichi/Downloads/clasv_publication/CLASV/CLASV/config/RF_LASV_lineage_n500_aa.joblib
+output: /Users/joirichi/Downloads/clasv_publication/CLASV/benchmark_output/test_Adesina_et_al_2023_EMI
+raw_seq_folder: /Users/joirichi/Downloads/clasv_publication/CLASV/benchmark_output/temp_input
+recursive: false
+reference: /Users/joirichi/Downloads/clasv_publication/CLASV/CLASV/config/NC_004296.fasta

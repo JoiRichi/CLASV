@@ -1,0 +1,14 @@
+include README.md
+include requirements.txt
+include setup.py
+
+include CLASV/config/config.yaml
+
+recursive-include CLASV *.smk
+recursive-include CLASV *.txt
+recursive-include CLASV *.png
+recursive-include CLASV config *
+recursive-include CLASV predictions *
+recursive-include CLASV raw_data *
+recursive-include CLASV results *
+recursive-include CLASV visuals *

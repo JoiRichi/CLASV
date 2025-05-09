@@ -1,0 +1,11 @@
+name: clasv_env
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.6
+  - biopython
+  - pandas
+  - matplotlib
+  - scikit-learn
+  - pip
+  - curl
