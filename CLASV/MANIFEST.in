@@ -1,0 +1,35 @@
+include LICENSE
+include README.md
+include VERSION
+include CLASV/VERSION
+include CLASV/predict_lineage.smk
+
+# Include configuration files
+include CLASV/config/*.yaml
+include CLASV/config/*.fasta
+include CLASV/config/*.joblib
+recursive-include CLASV/config *
+
+# Include benchmark tools
+include CLASV/tools/benchmark_clasv.py
+include CLASV/tools/README-benchmark.md
+
+# Include result/prediction/visual directories
+graft CLASV/results
+graft CLASV/predictions
+graft CLASV/visuals
+
+# Include documentation
+graft docs
+
+# Exclude development and test files
+exclude .gitignore
+exclude .github
+prune tests
+prune __pycache__
+global-exclude *.py[cod]
+global-exclude *.so
+global-exclude *.dylib
+global-exclude *~
+global-exclude .DS_Store
+global-exclude ._.DS_Store 

@@ -3,47 +3,85 @@ from setuptools.command.install import install
 import subprocess
 import os
 import sys
+import shutil
+from pathlib import Path
 
 # Custom post-install step to install Nextclade
-def install_nextclade():
-    try:
-        print("Installing Nextclade...")
-        subprocess.run(["python", "-m", "CLASV.install_nextclade"], check=True)
-        print("Nextclade installation completed.")
-        print(
-            "\nIMPORTANT: To ensure the Nextclade CLI is available, you may need to restart your terminal "
-            "or run the following command:\n"
-        )
-    except Exception as e:
-        print(f"Failed to install Nextclade: {e}")
+def install_nextclade(package_path):
+    """Install nextclade in the package directory"""
+    print("Installing nextclade...")
+    script_path = os.path.join(package_path, "install_nextclade.py")
+    if os.path.exists(script_path):
+        subprocess.run([sys.executable, script_path])
 
 
-def install_seqkit():
-    try:
-        print("Installing Seqkit...")
-        subprocess.run(["python", "-m", "CLASV.install_seqkit"], check=True)
-        print("Seqkit installation completed.")
-        print(
-            "\nIMPORTANT: To ensure the Seqkit CLI is available, you may need to restart your terminal "
-            "or run the following command:\n"
-        )
-    except Exception as e:
-        print(f"Failed to install Seqkit: {e}")
+def install_seqkit(package_path):
+    """Install seqkit in the package directory"""
+    print("Installing seqkit...")
+    script_path = os.path.join(package_path, "install_seqkit.py")
+    if os.path.exists(script_path):
+        subprocess.run([sys.executable, script_path])
+
+
+def find_data_files(base_dir):
+    """Find all data files in the given directory"""
+    data_files = []
+    for root, dirs, files in os.walk(base_dir):
+        if '__pycache__' in root:  # Skip __pycache__ directories
+            continue
+        # Get path relative to the package root
+        rel_path = os.path.relpath(root, base_dir)
+        if rel_path == '.':  # Top-level files
+            for file in files:
+                if file.endswith('.py') or file == '__pycache__':
+                    continue  # Skip Python files and __pycache__
+                data_files.append(os.path.join(rel_path, file))
+        else:  # Subdirectory files
+            for file in files:
+                if file.endswith('.py') or file == '__pycache__':
+                    continue  # Skip Python files and __pycache__
+                data_files.append(os.path.join(rel_path, file))
+    return data_files
+
+
+def packages_to_include():
+    """Return a list of packages to include"""
+    packages = ['CLASV']
+    for pkg in find_packages():
+        if pkg.startswith('CLASV.'):
+            packages.append(pkg)
+    return packages
 
 
 class CustomInstallCommand(install):
     def run(self):
         install.run(self)
-        install_nextclade()
-        install_seqkit()
+        install_nextclade(os.path.dirname(os.path.abspath(__file__)))
+        install_seqkit(os.path.dirname(os.path.abspath(__file__)))
 
 
 print('Running setup...')
 
+# Check Python version
+if sys.version_info < (3, 6) or sys.version_info >= (3, 12):
+    print("\n" + "!" * 80)
+    print("⚠️  WARNING: PYTHON VERSION COMPATIBILITY ISSUE ⚠️")
+    print("!" * 80)
+    print(f"Current Python version: {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
+    print("CLASV requires Python 3.6-3.11, with Python 3.11 strongly recommended.")
+    print("You may encounter issues with dependencies like Snakemake on other versions.")
+    print("Please install Python 3.11 from: https://www.python.org/downloads/release/python-3110/")
+    print("!" * 80 + "\n")
+elif sys.version_info.minor != 11 and sys.version_info.major == 3:
+    print("\n" + "-" * 80)
+    print("Note: While Python {}.{} is supported, Python 3.11 is recommended for optimal compatibility.".format(
+        sys.version_info.major, sys.version_info.minor))
+    print("-" * 80 + "\n")
+
 setup(
     name='CLASV',
     version='1.0.0',
-    packages=find_packages(),
+    packages=packages_to_include(),
     include_package_data=True,
     install_requires=[
             "appdirs==1.4.4",
@@ -116,20 +154,12 @@ setup(
         "zipp==3.21.0"
     ],
     package_data={
-        "CLASV": [
-            "predict_lineage.smk", 
-            "config/config.yaml",
-            "*.smk",
-            "config/*.yaml",
-            "results/*.fasta",
-            "results/*.csv",
-            "predictions/*.csv",
-            "visuals/*.html"
-        ]
+        "CLASV": find_data_files(os.path.join(os.path.dirname(os.path.abspath(__file__)), "CLASV"))
     },
     entry_points={
         "console_scripts": [
             "clasv=CLASV.cli:main",
+            "clasv-benchmark=CLASV.benchmark_clasv:main"
         ]
     },
     description='CLASV is a pipeline designed for rapidly predicting Lassa virus lineages using a Random Forest model.',
@@ -138,8 +168,7 @@ setup(
     author='Richard Daodu, Ebenezer Awotoro, Jens-Uwe Ulrich, Denise Kühnert',
     author_email='lordrichado@gmail.com',
     url='https://github.com/JoiRichi/CLASV/commits?author=JoiRichi',
-    python_requires=">=3.6"
-,
+    python_requires=">=3.6, <3.12",
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
@@ -154,4 +183,4 @@ setup(
     cmdclass={
         "install": CustomInstallCommand,
     },
-)
+) 

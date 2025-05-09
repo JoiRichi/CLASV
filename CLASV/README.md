@@ -1,23 +1,22 @@
-# CLASV
+# CLASV: Classification of Lassa Virus
+
+![Python Version](https://img.shields.io/badge/python-3.11-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Status](https://img.shields.io/badge/status-stable-brightgreen.svg)
 
 ## Overview
-Lassa virus lineage prediction based on random forest.
+CLASV (Classification of Lassa Virus) is a tool for predicting Lassa virus lineages from genomic sequences. It uses a random forest model trained on glycoprotein precursor (GPC) sequences to classify Lassa virus isolates into their respective lineages.
 
-Information on the research can be found here: 
-https://github.com/JoiRichi/CLASV
+Information on the research can be found in our [publication](#).
 
 ## Project Repositories
 - **Data and Processing:** [LASV_ML_Manuscript_Data](https://github.com/JoiRichi/LASV_ML_manuscript_data)
 - **Lassa Virus Lineage Prediction:** [CLASV_GITHUB](https://github.com/JoiRichi/CLASV)
 
-## Jupyter Notebooks on Google Colab
-- **General Preprocessing:** [Notebook Link](https://colab.research.google.com/drive/1JOgS2-dDoQ7OPHPcXm3AIBDnGQAFxIyR)
-- **Lassa Virus Lineage Prediction Training:** [Notebook Link](https://colab.research.google.com/drive/11U0NbLCTi_l0OaW6Vjil0g4evNHJHnWT?usp=share_link)
-
 ## Prediction Pipeline Overview
 ![CLASV](predflow.png)
 
-## ⚠️ Installation Guide (Tested Method) ⚠️
+## ⚠️ Installation Guide ⚠️
 
 ### Step 1: Install Python 3.11
 **CLASV requires Python 3.11 for optimal compatibility.**
@@ -34,14 +33,7 @@ https://github.com/JoiRichi/CLASV
 
 - **Windows**: Download and run the installer from [Python.org](https://www.python.org/downloads/release/python-3110/). Be sure to check "Add Python 3.11 to PATH" during installation.
 
-### Step 2: Verify Python Installation
-Confirm that Python 3.11 is installed correctly:
-```sh
-python3.11 --version
-# Should output: Python 3.11.x
-```
-
-### Step 3: Create a Virtual Environment
+### Step 2: Create a Virtual Environment
 ```sh
 # Create a dedicated directory for your project (optional)
 mkdir clasv_project
@@ -55,13 +47,9 @@ python3.11 -m venv clasv_env
 source clasv_env/bin/activate
 # On Windows:
 # clasv_env\Scripts\activate
-
-# Confirm you're using Python 3.11 in the virtual environment
-python --version
-# Should output: Python 3.11.x
 ```
 
-### Step 4: Install CLASV
+### Step 3: Install CLASV
 With your virtual environment activated:
 ```sh
 # Update pip to the latest version
@@ -71,7 +59,7 @@ pip install --upgrade pip
 pip install clasv
 ```
 
-### Step 5: Verify Installation
+### Step 4: Verify Installation
 ```sh
 # Check that CLASV is installed
 clasv --version
@@ -80,59 +68,54 @@ clasv --version
 clasv -h
 ```
 
-### Troubleshooting Installation
-- If you encounter errors with dependencies, try installing in a fresh virtual environment.
-- If Nextclade fails to install automatically, run your CLASV command again, as it attempts installation on first use.
-- For Snakemake-related errors, ensure you're using Python 3.11 as other versions may have compatibility issues.
-
 ## Running the Pipeline
 
 The main command for CLASV is `find-lassa`. This is how you run it:
 
 ```sh
-clasv find-lassa --input myinputfolderpath --output mychosenfolderpath --cores 4 --minlength 500 #default 
+# Basic usage
+clasv find-lassa --input myinputfolderpath --output mychosenfolderpath --cores 4 --minlength 500
+
+# Find Fasta files recursively
+clasv find-lassa --input myinputfolderpath --output mychosenfolderpath --cores 4 --recursive 
+
+# Force rerun
+clasv find-lassa --input myinputfolderpath --output mychosenfolderpath --cores 4 --force
 ```
-
-Find Fasta files in the input directory and subdirectories recursively:
-
-```sh
-# 
-clasv find-lassa --input myinputfolderpath --output mychosenfolderpath  --cores 4 --recursive #Add the recursive flag
-```
-
-
-Force rerun:
-
-```sh
-# 
-clasv find-lassa --input myinputfolderpath --output mychosenfolderpath --cores 4 --force #add the force flag
-```
-
 
 Upon completion, go to the pipeline 'visuals' folder and open the html files in a browser.
 
+## Benchmarking
 
-## Customization
+CLASV includes a powerful benchmark tool for scientific publication-grade performance evaluation.
 
-This pipeline has the ability to process multiple FASTA files containing multiple sequences with proficiency and speed. It is recommended that multiple FASTA files are concatenated into one; however, this is not compulsory, especially if the projects are different. By default, the pipeline finds all files with the extension `.fasta` in your **input_folder** folder and tries to find LASV GPC sequences in the files. 
+### Running Benchmarks
 
-To ensure Snakemake has a memory of what files have been checked, intermediary files are created for all files checked, even if they contain no GPC sequences. However, those files would be empty.
+```sh
+# Basic benchmark
+clasv-benchmark --input /path/to/fasta/files --output /path/to/output/dir
 
-### Important Outputs
+# Advanced options
+clasv-benchmark --input /path/to/fasta/files --output /path/to/output/dir --cores 8 --iterations 5
+```
 
-At the end of the run, you can check the **predictions** folder for the CSV files containing the predictions per sample. A visualization of the prediction can be found in the **visuals** folder. Open the HTML files in a browser. The images are high quality and reactive, allowing you to hover over them to see more information.
+### Benchmark Outputs
 
-For further details, please refer to the respective notebooks and repositories linked above. You can also leave a comment for help regarding the pipeline.
+- A comprehensive HTML report with visualizations
+- Detailed CSV files with timing information
+- Step-by-step breakdown of pipeline performance
+- System information and configuration details
+
+For more information, see the [benchmarking documentation](tools/README-benchmark.md).
 
 ## Technical Documentation
 
 ### Command Line Interface Options
-The CLASV tool provides the following command-line options:
 
+#### CLASV Pipeline
 ```sh
 clasv find-lassa [options]
 ```
-
 Options:
 - `--input`: Path to the input folder containing FASTA files (required)
 - `--output`: Path to the output folder for results (required)
@@ -142,9 +125,19 @@ Options:
 - `--minlength`: Minimum length of GPC sequences to consider (default: 500)
 - `--version`: Show the version number and exit
 
-### Pipeline Workflow
-CLASV executes the following sequence of operations:
+#### Benchmark Tool
+```sh
+clasv-benchmark [options]
+```
+Options:
+- `--input`: Directory containing FASTA files to benchmark (required)
+- `--output`: Directory to store benchmark results (required)
+- `--cores`: Number of CPU cores to use (default: 4)
+- `--minlength`: Minimum sequence length filter (default: 500)
+- `--iterations`: Number of iterations for each test (default: 3)
+- `--quiet`: Suppress detailed output
 
+### Pipeline Workflow
 1. **Dependency Check**: Verifies Nextclade and Seqkit are installed or installs them automatically
 2. **Preprocessing**: Collects and prepares input FASTA files
 3. **Alignment & Extraction**: Uses Nextclade to align sequences and extract GPC regions
@@ -181,7 +174,20 @@ After running the pipeline, the output folder will contain:
 
 4. **Memory Issues**: For large datasets, increase available memory or process files in smaller batches.
 
-## Model training
+## Citation
 
-Learn how the data was preprocessed here: [LASV_ML_Manuscript_Data](https://github.com/JoiRichi/LASV_ML_manuscript_data). Training process here [Notebook Link](https://colab.research.google.com/drive/11U0NbLCTi_l0OaW6Vjil0g4evNHJHnWT?usp=share_link).
+If you use CLASV in your research, please cite our paper:
 
+```
+[Citation information will be added upon publication]
+```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- [Nextclade](https://docs.nextstrain.org/projects/nextclade/en/stable/) for sequence alignment
+- [Seqkit](https://bioinf.shenwei.me/seqkit/) for sequence manipulation
+- All contributors and testers who helped improve this tool 

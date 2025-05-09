@@ -62,7 +62,7 @@ reretry==0.11.8
 rfc3986==2.0.0
 rich==13.9.4
 rpds-py==0.22.3
-scikit-learn==1.2.2
+scikit-learn==1.6.1
 scipy==1.14.1
 six==1.17.0
 smart-open==7.0.5
