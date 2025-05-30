@@ -51,3 +51,5 @@ Thumbs.db
 ._*
 *.~lock.*
 .DS_Store
+
+clasv_env/
