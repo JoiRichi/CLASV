@@ -263,3 +263,126 @@ def plot_lineage_data(csv_file, title, cutoff=0.5, line_color='Red', line_style=
 
 
 
+def plot_lineage_data(csv_file, title, cutoff=0.5, line_color='Red', line_style='dashdot', title_font_size=14, x_axis_title='ID or ID_index', y_axis_title='Probability', output_html=None):
+    """
+    Plot lineage data from a CSV file, create a bar chart, and a pie chart, and save the plots as an HTML file.
+
+    Parameters:
+    - csv_file (str): Path to the CSV file.
+    - title (str): Title of the plot.
+    - cutoff (float): Y-value for the cutoff line.
+    - line_color (str): Color of the cutoff line.
+    - line_style (str): Style of the cutoff line (e.g., 'dash', 'dashdot').
+    - title_font_size (int): Font size of the title.
+    - x_axis_title (str): Title for the x-axis.
+    - y_axis_title (str): Title for the y-axis.
+    - output_html (str): Path to save the HTML file. If None, the file won't be saved.
+    """
+   
+
+    # Reading the data from the CSV file
+    data = pd.read_csv(csv_file)
+
+    # Set index to the first column
+    data.set_index(data.columns[0], inplace=True)
+
+    # Separate numeric and non-numeric columns
+    numeric_data = data.select_dtypes(include=['number'])
+    non_numeric_data = data.select_dtypes(exclude=['number'])
+
+    # Interactive plot of numeric lineage data
+    fig_lineage = go.Figure()
+
+    if len(numeric_data) > 50:
+        x_values = list(range(1, len(numeric_data) + 1))
+        hover_texts = numeric_data.index
+    else:
+        x_values = numeric_data.index
+        hover_texts = numeric_data.index
+
+    for column in numeric_data.columns:
+        fig_lineage.add_trace(go.Scatter(
+            x=x_values,
+            y=numeric_data[column],
+            mode='lines+markers',
+            name=column,
+            text=hover_texts,
+            hoverinfo='text+y'
+        ))
+
+    # Layout styling with bold, larger fonts
+    fig_lineage.update_layout(
+        title=f'<b>{title}</b>',
+        title_font=dict(size=title_font_size, family='Arial', color='black'),
+        title_x=0.5,
+        font=dict(family='Arial', size=16, color='black'),  # base font
+        legend=dict(
+            title_font=dict(size=16, family='Arial'),
+            font=dict(size=14, family='Arial')
+        ),
+        hovermode='x unified'
+    )
+
+    # Bold and enlarge axis titles and tick labels
+    fig_lineage.update_xaxes(
+        title=dict(text=f'<b>{x_axis_title}</b>', font=dict(size=26, family='Arial')),
+        tickfont=dict(size=20, family='Arial')
+    )
+    fig_lineage.update_yaxes(
+        title=dict(text=f'<b>{y_axis_title}</b>', font=dict(size=26, family='Arial')),
+        tickfont=dict(size=20, family='Arial')
+    )
+
+    fig_lineage.add_shape(
+        type="line",
+        x0=0,
+        y0=cutoff,
+        x1=1,
+        y1=cutoff,
+        xref='paper',
+        yref='y',
+        line=dict(
+            color=line_color,
+            width=2,
+            dash=line_style,
+        )
+    )
+
+    # Bar chart of lineage frequencies
+    fig_bar = px.histogram(data.reset_index(), x='verdict')
+    fig_bar.update_traces(texttemplate='%{y}', textposition='outside')
+
+    # Apply same font and title styling
+    fig_bar.update_layout(
+        title=f'<b>{title}</b>',
+        title_font=dict(size=title_font_size, family='Arial', color='black'),
+        title_x=0.5,
+        font=dict(family='Arial', size=16, color='black'),
+        hovermode='x unified'
+    )
+    fig_bar.update_xaxes(
+        title=dict(text='<b>Predicted Lineage</b>', font=dict(size=26, family='Arial')),
+        tickfont=dict(size=20, family='Arial')
+    )
+    fig_bar.update_yaxes(
+        title=dict(text='<b>Count</b>', font=dict(size=26, family='Arial')),
+        tickfont=dict(size=20, family='Arial')
+    )
+
+    # Pie chart of lineage percentages
+    fig_pie = px.pie(data.reset_index(), names='verdict')
+    fig_pie.update_traces(textinfo='percent+label')
+    fig_pie.update_layout(
+        title=f'<b>{title}</b>',
+        title_font=dict(size=title_font_size, family='Arial', color='black'),
+        title_x=0.5,
+        font=dict(family='Arial', size=16, color='black')
+    )
+
+    # Save the figures as an HTML file if the output path is specified
+    if output_html:
+        with open(output_html, 'w') as f:
+            f.write(fig_lineage.to_html(full_html=False, include_plotlyjs='cdn'))
+            f.write(fig_bar.to_html(full_html=False, include_plotlyjs='cdn'))
+            f.write(fig_pie.to_html(full_html=False, include_plotlyjs='cdn'))
+
