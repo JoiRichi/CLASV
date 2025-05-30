@@ -12,7 +12,7 @@ https://github.com/JoiRichi/CLASV
 
 ## Jupyter Notebooks on Google Colab
 - **General Preprocessing:** [Notebook Link](https://colab.research.google.com/drive/1JOgS2-dDoQ7OPHPcXm3AIBDnGQAFxIyR)
-- **Lassa Virus Lineage Prediction Training:** [Notebook Link](https://colab.research.google.com/drive/11U0NbLCTi_l0OaW6Vjil0g4evNHJHnWT?usp=share_link)
+- **Lassa Virus Lineage Prediction Training:** [Notebook Link](https://colab.research.google.com/drive/1w2Uj_B8DJCCUSusA2sxpWUTI77TbNaG2?usp=sharing)
 
 ## Prediction Pipeline Overview
 ![CLASV](predflow.png)
