@@ -39,7 +39,7 @@ def update_config(input_folder, output_folder, recursive, minlength, include_fas
     library_path = Path(__file__).resolve().parent
     config_path = library_path / "config/config.yaml"
     reference_path = library_path / "config/NC_004296.fasta"
-    model_path = library_path / "config/RF_LASV_lineage_n500_aa.joblib"
+    model_path = library_path / "config/RF_LASV_lineage_n100_aa.joblib"
     
     print(f"Config path resolved to: {config_path}")
 
