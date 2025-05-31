@@ -16,7 +16,7 @@ Information on the research can be found in our [publication](#).
 ## Prediction Pipeline Overview
 ![CLASV](predflow.png)
 
-## ⚠️ Installation Guide ⚠️
+##  Installation Guide 
 
 ### Step 1: Install Python 3.11
 **CLASV requires Python 3.11 for optimal compatibility.**

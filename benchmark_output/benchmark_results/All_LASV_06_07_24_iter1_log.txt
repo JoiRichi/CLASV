@@ -1,10 +1,11 @@
 Nextclade is installed: nextclade 3.9.1
 SeqKit is installed: seqkit v2.9.0
 Nextclade and Seqkit installation verified successfully.
-Config path resolved to: /Users/DaoduR-Dev/Downloads/clasv_100/CLASV/CLASV/config/config.yaml
-Config updated successfully at /Users/DaoduR-Dev/Downloads/clasv_100/CLASV/CLASV/config/config.yaml
-Running Snakemake with command: snakemake -s /Users/DaoduR-Dev/Downloads/clasv_100/CLASV/CLASV/predict_lineage.smk --configfile /Users/DaoduR-Dev/Downloads/clasv_100/CLASV/CLASV/config/config.yaml --cores 1 --rerun-incomplete --forceall
+Config path resolved to: /Users/DaoduR-Dev/Downloads/clasv100_2/new_env/lib/python3.11/site-packages/CLASV/config/config.yaml
+Warning: Config file /Users/DaoduR-Dev/Downloads/clasv100_2/new_env/lib/python3.11/site-packages/CLASV/config/config.yaml does not exist. A new one will be created.
+Config updated successfully at /Users/DaoduR-Dev/Downloads/clasv100_2/new_env/lib/python3.11/site-packages/CLASV/config/config.yaml
+Running Snakemake with command: snakemake -s /Users/DaoduR-Dev/Downloads/clasv100_2/new_env/lib/python3.11/site-packages/CLASV/predict_lineage.smk --configfile /Users/DaoduR-Dev/Downloads/clasv100_2/new_env/lib/python3.11/site-packages/CLASV/config/config.yaml --cores 4 --rerun-incomplete --forceall
 Pipeline completed successfully!
-Results are available in: /Users/DaoduR-Dev/Downloads/clasv_100/CLASV/benchmark_output/test_All_LASV_06_07_24
+Results are available in: /Users/DaoduR-Dev/Downloads/clasv100_2/CLASV/benchmark_output/test_All_LASV_06_07_24
 Prediction files are in the 'predictions' directory.
 Visualization files are in the 'visuals' directory.

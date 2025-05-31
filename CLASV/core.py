@@ -262,7 +262,7 @@ def plot_lineage_data(csv_file, title, cutoff=0.5, line_color='Red', line_style=
             f.write(fig_pie.to_html(full_html=False, include_plotlyjs='cdn'))
 
 
-
+#intentionally duplicated the function to ensure it is does same as the one above - whith some additional styling
 def plot_lineage_data(csv_file, title, cutoff=0.5, line_color='Red', line_style='dashdot', title_font_size=14, x_axis_title='ID or ID_index', y_axis_title='Probability', output_html=None):
     """
     Plot lineage data from a CSV file, create a bar chart, and a pie chart, and save the plots as an HTML file.
