@@ -183,5 +183,5 @@ After running the pipeline, the output folder will contain:
 
 ## Model training
 
-Learn how the data was preprocessed here: [LASV_ML_Manuscript_Data](https://github.com/JoiRichi/LASV_ML_manuscript_data). Training process here [Notebook Link](https://colab.research.google.com/drive/11U0NbLCTi_l0OaW6Vjil0g4evNHJHnWT?usp=share_link).
+Learn how the data was preprocessed here: [LASV_ML_Manuscript_Data](https://github.com/JoiRichi/LASV_ML_manuscript_data). Training process here [Notebook Link](https://colab.research.google.com/drive/1w2Uj_B8DJCCUSusA2sxpWUTI77TbNaG2?usp=sharing).
 
