@@ -2,6 +2,7 @@ import os
 import subprocess
 import platform
 import sys
+import shutil
 from pathlib import Path
 
 def is_seqkit_installed():
@@ -88,6 +89,7 @@ def install_seqkit():
     # Add the installation directory to the PATH dynamically and permanently
     dynamically_update_path(install_path)
     persist_path(install_path)
+    link_into_venv_bin(seqkit_path)
 
 def dynamically_update_path(install_path):
     """
@@ -134,6 +136,30 @@ def persist_path(install_path):
         print("Please restart your terminal or run `source` on your shell configuration file to apply the changes.")
     except Exception as e:
         sys.exit(f"Failed to persist PATH in {config_file}: {e}")
+
+def link_into_venv_bin(tool_path: Path):
+    """Place a symlink (or copy) of the tool into the current environment's bin directory if available.
+
+    This ensures pip/venv users have the binary on PATH without modifying shell config.
+    """
+    try:
+        if os.name == "nt":
+            bin_dir = Path(sys.prefix) / "Scripts"
+            target = bin_dir / tool_path.name
+        else:
+            bin_dir = Path(sys.prefix) / "bin"
+            target = bin_dir / tool_path.name
+
+        bin_dir.mkdir(parents=True, exist_ok=True)
+
+        if not target.exists():
+            try:
+                os.symlink(tool_path, target)
+            except OSError:
+                shutil.copy2(tool_path, target)
+        print(f"Linked {tool_path.name} into {bin_dir}")
+    except Exception as e:
+        print(f"Warning: could not link {tool_path.name} into environment bin: {e}")
 
 if __name__ == "__main__":
     if not is_seqkit_installed():

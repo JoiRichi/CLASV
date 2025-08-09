@@ -74,7 +74,7 @@ def translate_alignment(alignment_path, output_path):
 class MakePredictions:
   def __init__(self, model_path):
     self.model = load(model_path)
-    self.columns =['lineage3', 'lineage4_5', 'lineage7', 'lineage_2']
+    self.columns =['lineageIII', 'lineageIV_V', 'lineageVII', 'lineageII']
 
 
 

@@ -1,0 +1,9 @@
+figures_title: LASV Lineage Prediction
+filter:
+  min_length: 500
+include_fastq: false
+model: /Users/joirichi/clasv_bioconda/CLASV/CLASV/config/RF_LASV_lineage_n100_aa.joblib
+output: /Users/joirichi/clasv_bioconda/CLASV/benchmark_output/python3.13/test_Adesina_et_al_2023_EMI
+raw_seq_folder: /Users/joirichi/clasv_bioconda/CLASV/benchmark_output/python3.13/temp_input
+recursive: false
+reference: /Users/joirichi/clasv_bioconda/CLASV/CLASV/config/NC_004296.fasta

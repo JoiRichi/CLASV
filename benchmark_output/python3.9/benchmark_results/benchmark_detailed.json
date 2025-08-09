@@ -1,0 +1,68 @@
+{
+  "system_info": {
+    "os": "Darwin 24.0.0",
+    "python": "3.9.23",
+    "cpu": "Apple M4",
+    "memory": "16.00 GB"
+  },
+  "benchmark_params": {
+    "cores": 4,
+    "minlength": 500,
+    "iterations": 3
+  },
+  "start_time": "2025-08-09T22:47:44.264850",
+  "end_time": "2025-08-09T22:49:28.570390",
+  "results": [
+    {
+      "sample": "All_LASV_06_07_24",
+      "file_size_bytes": 9525889,
+      "avg_execution_time": 21.60310459136963,
+      "iterations": 3,
+      "iteration_times": [
+        34.29143190383911,
+        15.284970998764038,
+        15.232910871505737
+      ],
+      "avg_step_times": {},
+      "step_times_by_iteration": {
+        "1": {},
+        "2": {},
+        "3": {}
+      }
+    },
+    {
+      "sample": "Bangura_et_al_2024_EMI",
+      "file_size_bytes": 201834,
+      "avg_execution_time": 6.42522931098938,
+      "iterations": 3,
+      "iteration_times": [
+        6.507153034210205,
+        6.363936901092529,
+        6.404597997665405
+      ],
+      "avg_step_times": {},
+      "step_times_by_iteration": {
+        "1": {},
+        "2": {},
+        "3": {}
+      }
+    },
+    {
+      "sample": "Adesina_et_al_2023_EMI",
+      "file_size_bytes": 156038,
+      "avg_execution_time": 6.709486325581868,
+      "iterations": 3,
+      "iteration_times": [
+        6.639533996582031,
+        6.6937947273254395,
+        6.795130252838135
+      ],
+      "avg_step_times": {},
+      "step_times_by_iteration": {
+        "1": {},
+        "2": {},
+        "3": {}
+      }
+    }
+  ]
+}
