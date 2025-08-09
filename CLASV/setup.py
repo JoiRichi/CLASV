@@ -80,7 +80,7 @@ elif sys.version_info.minor != 11 and sys.version_info.major == 3:
 
 setup(
     name='CLASV',
-    version='1.0.4',
+    version='1.0.6',
     packages=packages_to_include(),
     include_package_data=True,
     install_requires=[

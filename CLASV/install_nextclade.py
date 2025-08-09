@@ -121,7 +121,7 @@ def persist_path(install_path):
         print(f"Permanently added {install_path} to PATH in {config_file}.")
         print("Please restart your terminal or run `source` on your shell configuration file to apply the changes.")
     except Exception as e:
-        sys.exit(f"Failed to persist PATH in {config_file}: {e}")
+        print(f"warning: Failed to persist PATH in {config_file}: {e}")
 
 def link_into_venv_bin(tool_path: Path):
     """Place a symlink (or copy) of the tool into the current environment's bin directory if available.
