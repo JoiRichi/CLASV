@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLASV Benchmark Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding: 20px; }
+        .report-header { margin-bottom: 30px; }
+        .results-section { margin-top: 30px; }
+        .figure-section { margin-top: 40px; }
+        .figure-container { margin-bottom: 30px; }
+        .table-responsive { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="report-header">
+            <h1 class="text-center">CLASV Benchmark Report</h1>
+            <p class="text-center text-muted">2025-08-09 22:47:44 to 2025-08-09 22:49:28</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>System Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>System:</strong> Darwin 24.0.0, Apple M4, 16.00 GB</p>
+                        <p><strong>Python:</strong> 3.9.23</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Benchmark Configuration</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>CPU Cores:</strong> 4</p>
+                        <p><strong>Iterations:</strong> 3</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-section">
+            <h2>Benchmark Results</h2>
+            <div class="table-responsive">
+                <table class="dataframe table table-striped">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Sample</th>
+      <th>File_Size_MB</th>
+      <th>Avg_Total_Time_Seconds</th>
+      <th>Iterations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>All_LASV_06_07_24</td>
+      <td>9.084596</td>
+      <td>21.603105</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Bangura_et_al_2024_EMI</td>
+      <td>0.192484</td>
+      <td>6.425229</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Adesina_et_al_2023_EMI</td>
+      <td>0.148809</td>
+      <td>6.709486</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+            </div>
+        </div>
+        
+        <div class="figure-section">
+            <h2>Visualizations</h2>
+            
+            <div class="figure-container">
+                <h4>Average Execution Time by Sample</h4>
+                <img src="figures/total_time_by_sample.png" class="img-fluid" alt="Total Time by Sample">
+            </div>
+            
+            <div class="figure-container">
+                <h4>Pipeline Step Time Breakdown</h4>
+                <img src="figures/step_breakdown.png" class="img-fluid" alt="Step Breakdown">
+            </div>
+            
+            <div class="figure-container">
+                <h4>Execution Time vs File Size</h4>
+                <img src="figures/time_vs_size.png" class="img-fluid" alt="Time vs Size">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

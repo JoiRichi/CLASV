@@ -1,6 +1,6 @@
 package:
   name: clasv
-  version: "0.1.0"
+  version: "1.0.5"
 
 source:
   path: .
@@ -17,16 +17,19 @@ build:
 
 requirements:
   build:
-    - python >=3.6
+    - python >=3.7,<3.13
     - pip
     - curl
   run:
+    - python >=3.7,<3.13
     - biopython
     - pandas
     - matplotlib
     - scikit-learn
     - numpy
     - PyYAML
+    - nextclade
+    - seqkit
 
 test:
   imports:

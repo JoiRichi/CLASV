@@ -14,12 +14,12 @@ Information on the research can be found in our [publication](#).
 - **Lassa Virus Lineage Prediction:** [CLASV_GITHUB](https://github.com/JoiRichi/CLASV)
 
 ## Prediction Pipeline Overview
-![CLASV](predflow.png)
+![CLASV](predflow_updated.png)
 
 ##  Installation Guide 
 
 ### Step 1: Install Python 3.11
-**CLASV requires Python 3.11 for optimal compatibility.**
+**CLASV requires Python 3.11 for optimal compatibility (3.8 - 3.13 supported!).**
 
 - **macOS/Linux**: Download from [Python.org](https://www.python.org/downloads/release/python-3110/) or use a package manager:
   ```sh

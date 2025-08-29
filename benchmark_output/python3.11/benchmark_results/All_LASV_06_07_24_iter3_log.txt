@@ -1,0 +1,10 @@
+Nextclade is installed: nextclade 3.9.1
+SeqKit is installed: seqkit v2.9.0
+Nextclade and Seqkit installation verified successfully.
+Config path resolved to: /Users/joirichi/clasv_bioconda/CLASV/CLASV/config/config.yaml
+Config updated successfully at /Users/joirichi/clasv_bioconda/CLASV/CLASV/config/config.yaml
+Running Snakemake with command: snakemake -s /Users/joirichi/clasv_bioconda/CLASV/CLASV/predict_lineage.smk --configfile /Users/joirichi/clasv_bioconda/CLASV/CLASV/config/config.yaml --cores 4 --rerun-incomplete --forceall
+Pipeline completed successfully!
+Results are available in: /Users/joirichi/clasv_bioconda/CLASV/benchmark_output/python3.11/test_All_LASV_06_07_24
+Prediction files are in the 'predictions' directory.
+Visualization files are in the 'visuals' directory.
